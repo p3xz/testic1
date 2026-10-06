@@ -33,11 +33,15 @@ export class ScrollCameraController {
   }
 
   private setupScrollListener() {
-    window.addEventListener('scroll', () => {
-      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-      if (scrollHeight <= 0) return;
-      this.targetProgress = Math.max(0, Math.min(1, window.scrollY / scrollHeight));
-    }, { passive: true });
+    const updateProgress = () => {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      const scrollHeight = Math.max(1, (document.documentElement.scrollHeight || document.body.scrollHeight) - window.innerHeight);
+      this.targetProgress = Math.max(0, Math.min(1, scrollTop / scrollHeight));
+    };
+
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    window.addEventListener('resize', updateProgress, { passive: true });
+    updateProgress();
   }
 
   public onStageChange(callback: (stage: StageInfo, progress: number) => void) {
@@ -51,7 +55,7 @@ export class ScrollCameraController {
   public scrollToStage(stageId: string) {
     const stage = STAGES.find(s => s.id === stageId);
     if (!stage) return;
-    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const scrollHeight = Math.max(1, (document.documentElement.scrollHeight || document.body.scrollHeight) - window.innerHeight);
     const targetY = stage.startProgress * scrollHeight;
     window.scrollTo({
       top: targetY,
@@ -96,10 +100,20 @@ export class ScrollCameraController {
 
   private startRenderLoop() {
     const tick = () => {
-      // Smooth lerp towards target scroll progress (damping factor 0.08 for fluid cinematic feel)
+      // Re-query camera element if not cached yet
+      if (!this.cameraEl) {
+        this.cameraEl = document.querySelector('#main-camera');
+      }
+
+      // Read current scroll position
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      const scrollHeight = Math.max(1, (document.documentElement.scrollHeight || document.body.scrollHeight) - window.innerHeight);
+      this.targetProgress = Math.max(0, Math.min(1, scrollTop / scrollHeight));
+
+      // Smooth lerp towards target scroll progress
       const diff = this.targetProgress - this.currentProgress;
-      if (Math.abs(diff) > 0.00005) {
-        this.currentProgress += diff * 0.08;
+      if (Math.abs(diff) > 0.00002) {
+        this.currentProgress += diff * 0.1;
       } else {
         this.currentProgress = this.targetProgress;
       }
@@ -107,16 +121,23 @@ export class ScrollCameraController {
       const cam = this.calculateCameraTransform(this.currentProgress);
 
       if (this.cameraEl) {
-        this.cameraEl.setAttribute('position', `${cam.x.toFixed(4)} ${cam.y.toFixed(4)} ${cam.z.toFixed(4)}`);
-        
-        // Calculate rotation or lookAt target
+        // Calculate rotation towards lookAt target
         const dx = cam.lookAtX - cam.x;
         const dy = cam.lookAtY - cam.y;
         const dz = cam.lookAtZ - cam.z;
         const distance = Math.sqrt(dx * dx + dz * dz);
         const pitch = (-Math.atan2(dy, distance) * (180 / Math.PI));
         const yaw = (Math.atan2(dx, -dz) * (180 / Math.PI));
-        
+
+        // Update Three.js object3D directly for instantaneous rendering
+        const obj3D = (this.cameraEl as unknown as { object3D?: { position: { set: (x: number, y: number, z: number) => void }; rotation: { set: (x: number, y: number, z: number) => void } } }).object3D;
+        if (obj3D) {
+          obj3D.position.set(cam.x, cam.y, cam.z);
+          obj3D.rotation.set((pitch * Math.PI) / 180, (yaw * Math.PI) / 180, 0);
+        }
+
+        // Also update A-Frame attributes
+        this.cameraEl.setAttribute('position', `${cam.x.toFixed(4)} ${cam.y.toFixed(4)} ${cam.z.toFixed(4)}`);
         this.cameraEl.setAttribute('rotation', `${pitch.toFixed(2)} ${yaw.toFixed(2)} 0`);
       }
 

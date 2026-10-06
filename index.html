@@ -16,7 +16,7 @@
   <!-- 3D Scene Viewport (Fixed Background) -->
   <div id="scene-container">
     <a-scene embedded vr-mode-ui="enabled: false" loading-screen="enabled: false" renderer="antialias: true; alpha: true; colorManagement: true">
-      <a-entity id="main-camera" camera="fov: 55; near: 0.01; far: 100" position="0 1.2 5.2" rotation="-12 0 0"></a-entity>
+      <a-entity id="main-camera" camera="fov: 55; near: 0.01; far: 100" look-controls="enabled: false" wasd-controls="enabled: false" position="0 1.2 5.2" rotation="-12 0 0"></a-entity>
       <a-entity id="ambient-light" light="type: ambient; color: #0c1524; intensity: 0.8"></a-entity>
       <a-entity id="directional-light" light="type: directional; color: #00e5ff; intensity: 1.2; position: 2 4 3"></a-entity>
     </a-scene>

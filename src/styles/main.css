@@ -33,13 +33,20 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-html, body {
-  width: 100%;
-  height: 100%;
+html,
+body,
+html.a-fullscreen,
+html.a-fullscreen body,
+body.a-body {
+  width: 100% !important;
+  min-height: 100% !important;
+  height: auto !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  position: relative !important;
   background-color: var(--bg-primary);
   color: var(--text-primary);
   font-family: var(--font-sans);
-  overflow-x: hidden;
   user-select: none;
 }
 
@@ -66,13 +73,19 @@ html, body {
   width: 100vw;
   height: 100vh;
   z-index: 1;
-  pointer-events: auto;
+  pointer-events: none;
 }
 
 a-scene {
   width: 100%;
   height: 100%;
   background: transparent;
+  pointer-events: none;
+}
+
+a-scene canvas,
+.a-canvas {
+  pointer-events: none !important;
 }
 
 /* Scroll track: defines overall page length */
@@ -80,8 +93,9 @@ a-scene {
   position: relative;
   width: 100%;
   height: 700vh;
+  min-height: 6000px;
   z-index: 2;
-  pointer-events: none; /* Let clicks pass through to 3D scene / UI */
+  pointer-events: none;
 }
 
 /* UI Overlay Layer */
