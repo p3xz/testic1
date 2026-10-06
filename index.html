@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>INSIDE THE MACHINE — A Journey Through Computation</title>
+  <meta name="description" content="A scroll-driven journey from a computer to a transistor. Explore how modern computation emerges from microscopic electronic switches." />
+  
+  <!-- A-Frame 3D Engine -->
+  <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+  
+  <link rel="stylesheet" href="./src/styles/main.css" />
+</head>
+<body>
+
+  <!-- 3D Scene Viewport (Fixed Background) -->
+  <div id="scene-container">
+    <a-scene embedded vr-mode-ui="enabled: false" loading-screen="enabled: false" renderer="antialias: true; alpha: true; colorManagement: true">
+      <a-entity id="main-camera" camera="fov: 55; near: 0.01; far: 100" position="0 1.2 5.2" rotation="-12 0 0"></a-entity>
+      <a-entity id="ambient-light" light="type: ambient; color: #0c1524; intensity: 0.8"></a-entity>
+      <a-entity id="directional-light" light="type: directional; color: #00e5ff; intensity: 1.2; position: 2 4 3"></a-entity>
+    </a-scene>
+  </div>
+
+  <!-- Scroll Track (Determines scroll progress from 0% to 100%) -->
+  <div id="scroll-track"></div>
+
+  <!-- 2D HUD UI Overlay Layer -->
+  <div id="ui-layer">
+    
+    <!-- Top Navigation Bar -->
+    <header class="top-bar interactive">
+      <div class="brand-section">
+        <div class="brand-logo">
+          <div class="brand-dot"></div>
+          <span>INSIDE THE MACHINE</span>
+        </div>
+        <div id="hud-stage-badge" class="stage-badge">STAGE 01/07 : COMPUTER</div>
+      </div>
+      
+      <div class="top-controls">
+        <button id="btn-audio-toggle" class="hud-btn">
+          <span>SOUND: OFF</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Stage Timeline Ladder (Left) -->
+    <nav class="timeline-container interactive">
+      <div class="timeline-track">
+        <div id="timeline-progress-bar" class="timeline-progress-bar"></div>
+      </div>
+      
+      <button class="timeline-step active" data-stage="computer">
+        <div class="timeline-node"></div>
+        <div class="timeline-label">
+          <span class="timeline-num">01 / 10⁰m</span>
+          <span class="timeline-title">COMPUTER</span>
+        </div>
+      </button>
+
+      <button class="timeline-step" data-stage="motherboard">
+        <div class="timeline-node"></div>
+        <div class="timeline-label">
+          <span class="timeline-num">02 / 10⁻¹m</span>
+          <span class="timeline-title">MOTHERBOARD</span>
+        </div>
+      </button>
+
+      <button class="timeline-step" data-stage="cpu">
+        <div class="timeline-node"></div>
+        <div class="timeline-label">
+          <span class="timeline-num">03 / 10⁻²m</span>
+          <span class="timeline-title">CPU</span>
+        </div>
+      </button>
+
+      <button class="timeline-step" data-stage="cpu-internals">
+        <div class="timeline-node"></div>
+        <div class="timeline-label">
+          <span class="timeline-num">04 / 10⁻⁴m</span>
+          <span class="timeline-title">CPU INTERNALS</span>
+        </div>
+      </button>
+
+      <button class="timeline-step" data-stage="instruction-flow">
+        <div class="timeline-node"></div>
+        <div class="timeline-label">
+          <span class="timeline-num">05 / 10⁻⁵m</span>
+          <span class="timeline-title">INSTRUCTION</span>
+        </div>
+      </button>
+
+      <button class="timeline-step" data-stage="logic-gates">
+        <div class="timeline-node"></div>
+        <div class="timeline-label">
+          <span class="timeline-num">06 / 10⁻⁷m</span>
+          <span class="timeline-title">LOGIC GATES</span>
+        </div>
+      </button>
+
+      <button class="timeline-step" data-stage="transistor">
+        <div class="timeline-node"></div>
+        <div class="timeline-label">
+          <span class="timeline-num">07 / 10⁻⁹m</span>
+          <span class="timeline-title">TRANSISTOR</span>
+        </div>
+      </button>
+    </nav>
+
+    <!-- Center Intro Splash (0% scroll) -->
+    <div id="intro-hero" class="intro-hero">
+      <div class="hero-tag">A JOURNEY THROUGH COMPUTATION</div>
+      <h1 class="hero-title">INSIDE THE <span>MACHINE</span></h1>
+      <p class="hero-subtitle">
+        Travel from macroscopic computers down through motherboards, silicon microarchitecture, and logic gates into a single atomic transistor switch.
+      </p>
+      <div class="scroll-cue">
+        <span>SCROLL TO ENTER</span>
+        <div class="scroll-cue-arrow">↓</div>
+      </div>
+    </div>
+
+    <!-- Floating 3D Component Labels Overlay -->
+    <div id="floating-labels-container"></div>
+
+    <!-- Stage Announcement Banner (Cinematic scroll notification) -->
+    <div id="stage-announcement" class="stage-announcement">
+      <h2 class="announcement-title">ENTERING CPU</h2>
+      <p class="announcement-subtitle">THE PROCESSOR EXECUTES INSTRUCTIONS</p>
+    </div>
+
+    <!-- Component Inspector Modal / Drawer (Right) -->
+    <aside id="inspector-panel" class="inspector-panel interactive">
+      <div class="inspector-header">
+        <div class="inspector-title-group">
+          <span class="inspector-category">HARDWARE</span>
+          <h3 class="inspector-name">CPU</h3>
+          <span class="inspector-fullname">CENTRAL PROCESSING UNIT</span>
+        </div>
+        <button id="inspector-close-btn" class="inspector-close-btn" title="Close Panel">✕</button>
+      </div>
+
+      <div class="inspector-summary">“Executes instructions and performs calculations.”</div>
+      <p class="inspector-description">The master micro-processor that orchestrates every software operation.</p>
+
+      <div class="inspector-specs">
+        <!-- Dynamically injected spec items -->
+      </div>
+    </aside>
+
+    <!-- Stage 05: Instruction Flow Visualizer -->
+    <div id="instruction-sandbox" class="interactive-sandbox interactive">
+      <div class="sandbox-header">
+        <div class="sandbox-title">PIPELINE EXECUTION: 5 + 3 = 8</div>
+      </div>
+      <div class="instruction-pipeline-hud">
+        <div class="pipe-step active">
+          <span>FETCH</span>
+          <strong>ADD R1, R2</strong>
+        </div>
+        <span class="pipe-arrow">→</span>
+        <div class="pipe-step active">
+          <span>DECODE</span>
+          <strong>[ 5 ] & [ 3 ]</strong>
+        </div>
+        <span class="pipe-arrow">→</span>
+        <div class="pipe-step active">
+          <span>ALU EXEC</span>
+          <strong>5 + 3</strong>
+        </div>
+        <span class="pipe-arrow">→</span>
+        <div class="pipe-step active">
+          <span>WRITEBACK</span>
+          <strong>R3 = 8</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 06: Interactive Logic Gate Sandbox -->
+    <div id="logic-gate-sandbox" class="interactive-sandbox interactive">
+      <div class="sandbox-header">
+        <div class="sandbox-title">BOOLEAN LOGIC EXPERIMENTATION</div>
+      </div>
+      <div class="sandbox-controls">
+        <!-- AND Gate -->
+        <div class="gate-toggles">
+          <button id="btn-and-in-a" class="gate-btn">INPUT A: 0</button>
+          <span class="gate-operator">AND</span>
+          <button id="btn-and-in-b" class="gate-btn">INPUT B: 0</button>
+          <span class="gate-operator">=</span>
+          <div class="gate-result">
+            <span>OUT:</span>
+            <span id="val-and-out" class="gate-result-val zero">0</span>
+          </div>
+        </div>
+
+        <!-- OR Gate -->
+        <div class="gate-toggles" style="border-left: 1px solid var(--border-subtle); padding-left: 1rem;">
+          <button id="btn-or-in-a" class="gate-btn">INPUT A: 0</button>
+          <span class="gate-operator">OR</span>
+          <button id="btn-or-in-b" class="gate-btn">INPUT B: 0</button>
+          <span class="gate-operator">=</span>
+          <div class="gate-result">
+            <span>OUT:</span>
+            <span id="val-or-out" class="gate-result-val zero">0</span>
+          </div>
+        </div>
+
+        <!-- NOT Gate -->
+        <div class="gate-toggles" style="border-left: 1px solid var(--border-subtle); padding-left: 1rem;">
+          <span class="gate-operator">NOT</span>
+          <button id="btn-not-in-a" class="gate-btn">INPUT A: 0</button>
+          <span class="gate-operator">=</span>
+          <div class="gate-result">
+            <span>OUT:</span>
+            <span id="val-not-out" class="gate-result-val">1</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 07: Interactive Transistor Sandbox -->
+    <div id="transistor-sandbox" class="interactive-sandbox interactive">
+      <div class="sandbox-header">
+        <div class="sandbox-title">MOSFET ATOMIC SWITCH CONTROLLER</div>
+      </div>
+      <div class="transistor-switch-container">
+        <button id="btn-transistor-toggle" class="switch-toggle-btn active">
+          GATE VOLTAGE: HIGH [ 1 ]
+        </button>
+        <div class="transistor-status-indicator">
+          <div class="status-electron-flow">
+            <span class="brand-dot"></span>
+            <span id="transistor-flow-text">ELECTRON CURRENT: FLOWING (CONDUCTING)</span>
+          </div>
+          <div id="transistor-state-val" class="gate-result-val">OUTPUT: 1</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Final Outro / Pullback Overlay -->
+    <div id="outro-overlay" class="outro-overlay">
+      <div class="outro-hierarchy">
+        <span>TRANSISTOR (10⁻⁹m)</span>
+        <span class="arrow">→</span>
+        <span>LOGIC GATE (10⁻⁷m)</span>
+        <span class="arrow">→</span>
+        <span>PROCESSOR (10⁻²m)</span>
+        <span class="arrow">→</span>
+        <span>COMPUTER (10⁰m)</span>
+      </div>
+      <h2 class="outro-headline">FROM A TINY SWITCH TO A GLOBAL NETWORK</h2>
+      <p class="outro-text">
+        You just travelled through the 7 physical layers of computation. Modern supercomputers and artificial intelligence emerge entirely from billions of nanoscale transistors switching between 0 and 1.
+      </p>
+      <button id="btn-explore-again" class="explore-again-btn">
+        <span>EXPLORE AGAIN ↑</span>
+      </button>
+    </div>
+
+    <!-- Bottom Telemetry HUD -->
+    <footer class="bottom-bar interactive">
+      <div class="telemetry-card">
+        <div class="telemetry-item">
+          <span class="telemetry-label">POSITION / DEPTH</span>
+          <span id="telemetry-depth" class="telemetry-value">Z: 5.20m (X: 0.00, Y: 1.20)</span>
+        </div>
+        <div class="telemetry-item">
+          <span class="telemetry-label">CLOCK FREQUENCY</span>
+          <span id="telemetry-clock" class="telemetry-value">3.80 GHz (BASE)</span>
+        </div>
+        <div class="telemetry-item">
+          <span class="telemetry-label">SYSTEM HEALTH</span>
+          <span id="telemetry-status" class="telemetry-value">SYSTEM ONLINE</span>
+        </div>
+      </div>
+
+      <div class="scale-meter">
+        <span class="scale-label">CURRENT OBSERVATION SCALE</span>
+        <div id="hud-scale-badge" class="scale-badge">
+          <span>10⁰ m</span> 1.0 Meter
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script type="module" src="./src/main.ts"></script>
+</body>
+</html>
