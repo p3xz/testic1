@@ -15,10 +15,14 @@
 
   <!-- 3D Scene Viewport (Fixed Background) -->
   <div id="scene-container">
-    <a-scene embedded vr-mode-ui="enabled: false" loading-screen="enabled: false" renderer="antialias: true; alpha: true; colorManagement: true">
+    <a-scene embedded vr-mode-ui="enabled: false" loading-screen="enabled: false" fog="type: exponential; color: #05070a; density: 0.035" renderer="antialias: true; alpha: true; colorManagement: true">
       <a-entity id="main-camera" camera="fov: 55; near: 0.01; far: 100" look-controls="enabled: false" wasd-controls="enabled: false" position="0 1.2 5.2" rotation="-12 0 0"></a-entity>
-      <a-entity id="ambient-light" light="type: ambient; color: #0c1524; intensity: 0.8"></a-entity>
-      <a-entity id="directional-light" light="type: directional; color: #00e5ff; intensity: 1.2; position: 2 4 3"></a-entity>
+      <!-- Bright multi-directional lighting rig -->
+      <a-entity id="ambient-light" light="type: ambient; color: #dbeafe; intensity: 1.8"></a-entity>
+      <a-entity id="hemi-light" light="type: hemisphere; color: #ffffff; groundColor: #1e293b; intensity: 1.4"></a-entity>
+      <a-entity id="directional-light" light="type: directional; color: #ffffff; intensity: 2.2; position: 3 6 5"></a-entity>
+      <a-entity id="fill-light" light="type: directional; color: #00e5ff; intensity: 1.5; position: -4 2 2"></a-entity>
+      <a-entity id="back-light" light="type: directional; color: #7c3aed; intensity: 1.6; position: 0 4 -8"></a-entity>
     </a-scene>
   </div>
 

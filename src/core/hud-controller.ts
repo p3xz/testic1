@@ -296,21 +296,34 @@ export class HUDController {
     const stage = STAGES.find(s => s.id === this.currentStageId);
     if (!stage) return;
 
-    // Show labels belonging to current stage
+    // Only show labels when camera is settled in the current stage range
+    const inRange = progress >= stage.startProgress + 0.015 && progress <= stage.endProgress - 0.01;
+
     Object.values(COMPONENTS_DATA).forEach(comp => {
       const labelEl = document.querySelector(`#label-${comp.id}`) as HTMLElement;
       if (!labelEl) return;
 
-      if (comp.stageId === stage.id && progress > 0.08 && progress < 0.95) {
+      if (comp.stageId === stage.id && inRange) {
         labelEl.classList.add('visible');
-        
-        // Approximate 2D screen positions based on component positions
-        // This gives a clean HUD placement near each component
-        let leftPercent = 50 + comp.worldPosition[0] * 35;
-        let topPercent = 50 - comp.worldPosition[1] * 30 + comp.labelOffset[1] * 20;
 
-        leftPercent = Math.max(10, Math.min(90, leftPercent));
-        topPercent = Math.max(15, Math.min(85, topPercent));
+        // Well-spaced layout coordinates per component to eliminate overlap
+        let leftPercent = 50;
+        let topPercent = 50;
+
+        if (comp.id === 'cpu') { leftPercent = 50; topPercent = 38; }
+        else if (comp.id === 'ram') { leftPercent = 75; topPercent = 42; }
+        else if (comp.id === 'gpu') { leftPercent = 25; topPercent = 55; }
+        else if (comp.id === 'storage') { leftPercent = 68; topPercent = 64; }
+        else if (comp.id === 'power') { leftPercent = 32; topPercent = 35; }
+        else if (comp.id === 'data_bus') { leftPercent = 58; topPercent = 52; }
+        else if (comp.id === 'control_unit') { leftPercent = 30; topPercent = 42; }
+        else if (comp.id === 'alu') { leftPercent = 70; topPercent = 42; }
+        else if (comp.id === 'registers') { leftPercent = 70; topPercent = 60; }
+        else if (comp.id === 'cache') { leftPercent = 30; topPercent = 60; }
+        else if (comp.id === 'gate_and') { leftPercent = 25; topPercent = 42; }
+        else if (comp.id === 'gate_or') { leftPercent = 50; topPercent = 42; }
+        else if (comp.id === 'gate_not') { leftPercent = 75; topPercent = 42; }
+        else if (comp.id === 'transistor_core') { leftPercent = 50; topPercent = 35; }
 
         labelEl.style.left = `${leftPercent}%`;
         labelEl.style.top = `${topPercent}%`;

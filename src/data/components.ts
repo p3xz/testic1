@@ -31,7 +31,7 @@ export const COMPONENTS_DATA: Record<string, InteractiveComponentData> = {
       { label: 'Architecture', value: 'x86-64 / ARMv9' }
     ],
     connections: ['RAM via Memory Bus', 'GPU via PCIe 5.0 x16', 'Motherboard Power VRMs'],
-    worldPosition: [0, 0.08, -0.1],
+    worldPosition: [0, 0.08, 0],
     labelOffset: [0, 0.28, 0],
     accentColor: '#00e5ff',
     interactiveType: 'info'
@@ -51,7 +51,7 @@ export const COMPONENTS_DATA: Record<string, InteractiveComponentData> = {
       { label: 'Bandwidth', value: '102.4 GB/s' }
     ],
     connections: ['Direct CPU Memory Controller', 'Motherboard DIMM Slots'],
-    worldPosition: [0.62, 0.12, -0.1],
+    worldPosition: [0.48, 0.12, 0],
     labelOffset: [0, 0.32, 0],
     accentColor: '#00e5ff',
     interactiveType: 'info'
@@ -71,7 +71,7 @@ export const COMPONENTS_DATA: Record<string, InteractiveComponentData> = {
       { label: 'Interface', value: 'PCIe 5.0 x16' }
     ],
     connections: ['PCIe 5.0 Bus', 'DisplayPort / HDMI Out', 'Dedicated 12V-2x6 Power'],
-    worldPosition: [-0.65, 0.14, 0.18],
+    worldPosition: [-0.52, 0.14, 0.3],
     labelOffset: [0, 0.35, 0],
     accentColor: '#7c3aed',
     interactiveType: 'info'
@@ -91,7 +91,7 @@ export const COMPONENTS_DATA: Record<string, InteractiveComponentData> = {
       { label: 'Flash Cell Type', value: '3D TLC NAND' }
     ],
     connections: ['M.2 Socket on Motherboard', 'Direct PCIe CPU lanes'],
-    worldPosition: [0.45, 0.05, 0.35],
+    worldPosition: [0.38, 0.05, 0.4],
     labelOffset: [0, 0.22, 0],
     accentColor: '#00e5ff',
     interactiveType: 'info'
@@ -111,7 +111,7 @@ export const COMPONENTS_DATA: Record<string, InteractiveComponentData> = {
       { label: 'Output Capacity', value: '1000 Watts' }
     ],
     connections: ['24-Pin ATX Motherboard Header', '8-Pin CPU EPS Rails'],
-    worldPosition: [-0.6, 0.08, -0.4],
+    worldPosition: [-0.4, 0.08, -0.42],
     labelOffset: [0, 0.26, 0],
     accentColor: '#00e5ff',
     interactiveType: 'info'
@@ -131,13 +131,13 @@ export const COMPONENTS_DATA: Record<string, InteractiveComponentData> = {
       { label: 'Signal Velocity', value: '~15 cm/ns (Speed of Light in FR4)' }
     ],
     connections: ['Links CPU to RAM, Chipset, Storage, and PCIe'],
-    worldPosition: [0.15, 0.02, 0.12],
+    worldPosition: [0.15, 0.026, 0.15],
     labelOffset: [0, 0.24, 0],
     accentColor: '#00e5ff',
     interactiveType: 'info'
   },
 
-  // CPU Internals
+  // CPU Internals (Z = -8.0)
   control_unit: {
     id: 'control_unit',
     stageId: 'cpu-internals',
@@ -153,7 +153,7 @@ export const COMPONENTS_DATA: Record<string, InteractiveComponentData> = {
       { label: 'Microcode ROM', value: 'Embedded Hardware' }
     ],
     connections: ['Instruction Cache', 'ALU Execution Units', 'Register File'],
-    worldPosition: [-0.4, 0.02, -3.1],
+    worldPosition: [-0.55, 0.05, -7.6],
     labelOffset: [0, 0.35, 0],
     accentColor: '#00e5ff',
     interactiveType: 'info'
@@ -173,7 +173,7 @@ export const COMPONENTS_DATA: Record<string, InteractiveComponentData> = {
       { label: 'Execution Units', value: '4 Integer + 2 Vector ALUs' }
     ],
     connections: ['Control Unit Opcode Lines', 'Register Operands In/Out', 'Status Flags'],
-    worldPosition: [0.4, 0.02, -3.1],
+    worldPosition: [0.55, 0.05, -7.6],
     labelOffset: [0, 0.35, 0],
     accentColor: '#7c3aed',
     interactiveType: 'info'
@@ -193,7 +193,7 @@ export const COMPONENTS_DATA: Record<string, InteractiveComponentData> = {
       { label: 'Physical Registers', value: '256 Internal Renamed' }
     ],
     connections: ['Direct ALU Inputs / Outputs', 'L1 Data Cache Load/Store'],
-    worldPosition: [0.4, 0.02, -3.8],
+    worldPosition: [0.55, 0.05, -8.45],
     labelOffset: [0, 0.35, 0],
     accentColor: '#00e5ff',
     interactiveType: 'info'
@@ -213,13 +213,13 @@ export const COMPONENTS_DATA: Record<string, InteractiveComponentData> = {
       { label: 'SRAM Structure', value: '6-Transistor (6T) SRAM Cells' }
     ],
     connections: ['Control Unit Fetch Bus', 'L3 Shared Cache', 'DRAM Controller'],
-    worldPosition: [-0.4, 0.02, -3.8],
+    worldPosition: [-0.55, 0.05, -8.45],
     labelOffset: [0, 0.35, 0],
     accentColor: '#00e5ff',
     interactiveType: 'info'
   },
 
-  // Logic Gates
+  // Logic Gates (Z = -18.5)
   gate_and: {
     id: 'gate_and',
     stageId: 'logic-gates',
@@ -235,7 +235,7 @@ export const COMPONENTS_DATA: Record<string, InteractiveComponentData> = {
       { label: 'Role', value: 'Bit masking, filtering, addition carry' }
     ],
     connections: ['Input A (0/1)', 'Input B (0/1)', 'Output Y = A · B'],
-    worldPosition: [-0.8, 0.0, -8.0],
+    worldPosition: [-0.95, 0.0, -18.5],
     labelOffset: [0, 0.45, 0],
     accentColor: '#00e5ff',
     interactiveType: 'logic-gate',
@@ -256,7 +256,7 @@ export const COMPONENTS_DATA: Record<string, InteractiveComponentData> = {
       { label: 'Role', value: 'Condition merging, bit set operations' }
     ],
     connections: ['Input A (0/1)', 'Input B (0/1)', 'Output Y = A + B'],
-    worldPosition: [0.0, 0.0, -8.0],
+    worldPosition: [0.0, 0.0, -18.5],
     labelOffset: [0, 0.45, 0],
     accentColor: '#00e5ff',
     interactiveType: 'logic-gate',
@@ -277,14 +277,14 @@ export const COMPONENTS_DATA: Record<string, InteractiveComponentData> = {
       { label: 'Role', value: 'Signal inversion, subtraction (2s complement)' }
     ],
     connections: ['Input A (0/1)', 'Output Y = NOT A'],
-    worldPosition: [0.8, 0.0, -8.0],
+    worldPosition: [0.95, 0.0, -18.5],
     labelOffset: [0, 0.45, 0],
     accentColor: '#7c3aed',
     interactiveType: 'logic-gate',
     gateType: 'NOT'
   },
 
-  // Transistor
+  // Transistor (Z = -24.5)
   transistor_core: {
     id: 'transistor_core',
     stageId: 'transistor',
@@ -300,7 +300,7 @@ export const COMPONENTS_DATA: Record<string, InteractiveComponentData> = {
       { label: 'Total In Modern Chip', value: '50+ Billion Transistors' }
     ],
     connections: ['Source (Electron Reservoir)', 'Gate (Electrostatic Control Valve)', 'Drain (Signal Collector)'],
-    worldPosition: [0.0, 0.0, -10.5],
+    worldPosition: [0.0, 0.0, -24.5],
     labelOffset: [0, 0.5, 0],
     accentColor: '#00e5ff',
     interactiveType: 'transistor'
