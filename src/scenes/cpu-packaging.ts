@@ -3,32 +3,11 @@ export function buildCPUPackagingScene(): HTMLElement {
   container.setAttribute('id', 'scene-cpu-packaging');
   container.setAttribute('position', '0 0 -3.5');
 
-  // Green/Black Organic Semiconductor Substrate Carrier
-  const substrate = document.createElement('a-box');
-  substrate.setAttribute('position', '0 0 0');
-  substrate.setAttribute('width', '1.4');
-  substrate.setAttribute('height', '0.05');
-  substrate.setAttribute('depth', '1.4');
-  substrate.setAttribute('material', 'color: #113824; roughness: 0.4; metalness: 0.3');
-  container.appendChild(substrate);
-
-  // Gold Wire Bond / Contact Pad Perimeter (LGA / BGA Array)
-  const pinArray = document.createElement('a-plane');
-  pinArray.setAttribute('position', '0 0.028 0');
-  pinArray.setAttribute('rotation', '-90 0 0');
-  pinArray.setAttribute('width', '1.3');
-  pinArray.setAttribute('height', '1.3');
-  pinArray.setAttribute('material', 'color: #ffd166; roughness: 0.2; metalness: 0.95; wireframe: true; wireframeLinewidth: 2');
-  container.appendChild(pinArray);
-
-  // Silicon Die (The Shiny Raw Silicon Crystal)
-  const siliconDie = document.createElement('a-box');
-  siliconDie.setAttribute('position', '0 0.055 0');
-  siliconDie.setAttribute('width', '0.85');
-  siliconDie.setAttribute('height', '0.04');
-  siliconDie.setAttribute('depth', '0.85');
-  siliconDie.setAttribute('material', 'color: #1e293b; metalness: 0.95; roughness: 0.1');
-  container.appendChild(siliconDie);
+  // Main High-Detail 3D CPU Die GLB Model
+  const glbModel = document.createElement('a-gltf-model');
+  glbModel.setAttribute('src', '#model-cpu');
+  glbModel.setAttribute('position', '0 0 0');
+  container.appendChild(glbModel);
 
   // Die Floorplan Etched Micro-circuits (Multi-core layout with cyan luminescence)
   const floorplan = document.createElement('a-plane');

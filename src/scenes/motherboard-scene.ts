@@ -3,23 +3,11 @@ export function buildMotherboardScene(): HTMLElement {
   container.setAttribute('id', 'scene-motherboard');
   container.setAttribute('position', '0 0 -0.1');
 
-  // Main Motherboard PCB Base (Rich High-Tech Circuit Board)
-  const pcb = document.createElement('a-box');
-  pcb.setAttribute('position', '0 0 0');
-  pcb.setAttribute('width', '1.6');
-  pcb.setAttribute('height', '0.04');
-  pcb.setAttribute('depth', '1.6');
-  pcb.setAttribute('material', 'color: #0c2b1a; roughness: 0.35; metalness: 0.25');
-  container.appendChild(pcb);
-
-  // PCB SilkScreen / Grid Traces Grid overlay
-  const pcbGrid = document.createElement('a-plane');
-  pcbGrid.setAttribute('position', '0 0.022 0');
-  pcbGrid.setAttribute('rotation', '-90 0 0');
-  pcbGrid.setAttribute('width', '1.56');
-  pcbGrid.setAttribute('height', '1.56');
-  pcbGrid.setAttribute('material', 'color: #00e5ff; opacity: 0.15; transparent: true; wireframe: true; wireframeLinewidth: 1');
-  container.appendChild(pcbGrid);
+  // Main High-Detail 3D Motherboard GLB Model
+  const glbModel = document.createElement('a-gltf-model');
+  glbModel.setAttribute('src', '#model-motherboard');
+  glbModel.setAttribute('position', '0 0 0');
+  container.appendChild(glbModel);
 
   // 1. CPU (Central Processing Unit) - Main Destination Component
   const cpuGroup = document.createElement('a-entity');

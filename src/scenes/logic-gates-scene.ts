@@ -3,6 +3,12 @@ export function buildLogicGatesScene(): HTMLElement {
   container.setAttribute('id', 'scene-logic-gates');
   container.setAttribute('position', '0 0 -18.5');
 
+  // Main High-Detail 3D Logic Gates GLB Model
+  const glbModel = document.createElement('a-gltf-model');
+  glbModel.setAttribute('src', '#model-logic-gates');
+  glbModel.setAttribute('position', '0 0 0');
+  container.appendChild(glbModel);
+
   // Ground Grid Substrate
   const grid = document.createElement('a-plane');
   grid.setAttribute('position', '0 -0.4 0');

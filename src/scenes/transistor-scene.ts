@@ -10,14 +10,11 @@ export function buildTransistorScene(): HTMLElement {
   txGroup.setAttribute('data-component-id', 'transistor_core');
   txGroup.setAttribute('position', '0 0 0');
 
-  // 1. Silicon Substrate Bed (P-Type Base)
-  const substrate = document.createElement('a-box');
-  substrate.setAttribute('position', '0 -0.25 0');
-  substrate.setAttribute('width', '1.8');
-  substrate.setAttribute('height', '0.35');
-  substrate.setAttribute('depth', '1.3');
-  substrate.setAttribute('material', 'color: #1e293b; metalness: 0.6; roughness: 0.35');
-  txGroup.appendChild(substrate);
+  // Main High-Detail 3D Transistor GLB Model
+  const glbModel = document.createElement('a-gltf-model');
+  glbModel.setAttribute('src', '#model-transistor');
+  glbModel.setAttribute('position', '0 0 0');
+  container.appendChild(glbModel);
 
   // Substrate Atomic Lattice Matrix
   const lattice = document.createElement('a-plane');

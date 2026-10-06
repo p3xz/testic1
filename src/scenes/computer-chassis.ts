@@ -3,48 +3,11 @@ export function buildComputerChassis(): HTMLElement {
   container.setAttribute('id', 'scene-computer-chassis');
   container.setAttribute('position', '0 0 0');
 
-  // Open-Frame Exhibition Stand (Base Pedestal)
-  const baseStand = document.createElement('a-box');
-  baseStand.setAttribute('position', '0 -0.15 0');
-  baseStand.setAttribute('width', '2.0');
-  baseStand.setAttribute('height', '0.08');
-  baseStand.setAttribute('depth', '2.0');
-  baseStand.setAttribute('material', 'color: #1e293b; metalness: 0.8; roughness: 0.3');
-  container.appendChild(baseStand);
-
-  // Corner Aluminum Pillars (Chassis Frame Posts)
-  const cornerPositions = [
-    [-0.95, 0.45, -0.95],
-    [0.95, 0.45, -0.95],
-    [-0.95, 0.45, 0.95],
-    [0.95, 0.45, 0.95]
-  ];
-
-  cornerPositions.forEach(([x, y, z]) => {
-    const pillar = document.createElement('a-cylinder');
-    pillar.setAttribute('position', `${x} ${y} ${z}`);
-    pillar.setAttribute('radius', '0.035');
-    pillar.setAttribute('height', '1.2');
-    pillar.setAttribute('material', 'color: #64748b; metalness: 0.9; roughness: 0.15');
-    container.appendChild(pillar);
-  });
-
-  // Top Frame Rails
-  const topRail1 = document.createElement('a-box');
-  topRail1.setAttribute('position', '0 1.05 -0.95');
-  topRail1.setAttribute('width', '1.9');
-  topRail1.setAttribute('height', '0.04');
-  topRail1.setAttribute('depth', '0.04');
-  topRail1.setAttribute('material', 'color: #475569; metalness: 0.8');
-  container.appendChild(topRail1);
-
-  const topRail2 = document.createElement('a-box');
-  topRail2.setAttribute('position', '0 1.05 0.95');
-  topRail2.setAttribute('width', '1.9');
-  topRail2.setAttribute('height', '0.04');
-  topRail2.setAttribute('depth', '0.04');
-  topRail2.setAttribute('material', 'color: #475569; metalness: 0.8');
-  container.appendChild(topRail2);
+  // Main High-Detail 3D GLB Model
+  const glbModel = document.createElement('a-gltf-model');
+  glbModel.setAttribute('src', '#model-computer');
+  glbModel.setAttribute('position', '0 0 0');
+  container.appendChild(glbModel);
 
   // Chassis Front Intake RGB Fans (2 Glowing Fans mounted on right side frame)
   for (let i = 0; i < 2; i++) {

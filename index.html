@@ -16,6 +16,15 @@
   <!-- 3D Scene Viewport (Fixed Background) -->
   <div id="scene-container">
     <a-scene embedded vr-mode-ui="enabled: false" loading-screen="enabled: false" fog="type: exponential; color: #05070a; density: 0.035" renderer="antialias: true; alpha: true; colorManagement: true">
+      <a-assets timeout="10000">
+        <a-asset-item id="model-computer" src="./models/computer.glb"></a-asset-item>
+        <a-asset-item id="model-motherboard" src="./models/motherboard.glb"></a-asset-item>
+        <a-asset-item id="model-cpu" src="./models/cpu.glb"></a-asset-item>
+        <a-asset-item id="model-cpu-internals" src="./models/cpu-internals.glb"></a-asset-item>
+        <a-asset-item id="model-logic-gates" src="./models/logic-gates.glb"></a-asset-item>
+        <a-asset-item id="model-transistor" src="./models/transistor.glb"></a-asset-item>
+      </a-assets>
+
       <a-entity id="main-camera" camera="fov: 55; near: 0.01; far: 100" look-controls="enabled: false" wasd-controls="enabled: false" position="0 1.2 5.2" rotation="-12 0 0"></a-entity>
       <!-- Bright multi-directional lighting rig -->
       <a-entity id="ambient-light" light="type: ambient; color: #dbeafe; intensity: 1.8"></a-entity>

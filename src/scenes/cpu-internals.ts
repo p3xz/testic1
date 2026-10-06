@@ -3,23 +3,11 @@ export function buildCPUInternalsScene(): HTMLElement {
   container.setAttribute('id', 'scene-cpu-internals');
   container.setAttribute('position', '0 0 -8.0');
 
-  // Microscopic Silicon Die Substrate Bed
-  const dieFloor = document.createElement('a-box');
-  dieFloor.setAttribute('position', '0 -0.05 0');
-  dieFloor.setAttribute('width', '2.4');
-  dieFloor.setAttribute('height', '0.05');
-  dieFloor.setAttribute('depth', '2.4');
-  dieFloor.setAttribute('material', 'color: #1e293b; roughness: 0.3; metalness: 0.7');
-  container.appendChild(dieFloor);
-
-  // Micro-circuit Trace Grid
-  const traceGrid = document.createElement('a-plane');
-  traceGrid.setAttribute('position', '0 -0.022 0');
-  traceGrid.setAttribute('rotation', '-90 0 0');
-  traceGrid.setAttribute('width', '2.3');
-  traceGrid.setAttribute('height', '2.3');
-  traceGrid.setAttribute('material', 'color: #00e5ff; opacity: 0.2; transparent: true; wireframe: true; wireframeLinewidth: 1');
-  container.appendChild(traceGrid);
+  // Main High-Detail 3D CPU Internals Architecture GLB Model
+  const glbModel = document.createElement('a-gltf-model');
+  glbModel.setAttribute('src', '#model-cpu-internals');
+  glbModel.setAttribute('position', '0 0 0');
+  container.appendChild(glbModel);
 
   // 1. CONTROL UNIT (Coordinates instruction execution)
   const cuGroup = document.createElement('a-entity');
